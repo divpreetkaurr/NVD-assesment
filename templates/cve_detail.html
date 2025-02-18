@@ -8,10 +8,11 @@
 <body>
     <h2>CVE Details</h2>
     <p><strong>ID:</strong> {{ cve.cve_id }}</p>
-    <p><strong>Description:</strong> {{ cve.description }}</p>
+    <p><strong>Identifier:</strong> {{ cve.identifier }}</p>
     <p><strong>CVSS Score:</strong> {{ cve.cvss_score }}</p>
     <p><strong>Published Date:</strong> {{ cve.published_date }}</p>
     <p><strong>Last Modified Date:</strong> {{ cve.last_modified_date }}</p>
-    <a href="/">Back to CVE List</a>
+    <p><strong>Status:</strong> {{ cve.status}}</p>
+    <a href="/cves/list">Back to CVE List</a>
 </body>
 </html>
