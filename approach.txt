@@ -1,0 +1,33 @@
+Step 1: Define the Project Requirements
+Frontend: Static content (HTML, CSS, JS) to display user interface.
+Backend: Dynamic processing using Flask, such as handling user requests, interacting with databases, or processing CVE data.
+Deployment: Both frontend and backend need to be accessible, with clear separation of concerns:
+Frontend on GitHub Pages for static hosting.
+Backend on Heroku for dynamic server-side processing.
+Step 2: Design the System Architecture
+The system has two major parts:
+
+Frontend (Client-Side): The static website hosted on GitHub Pages.
+
+It will consist of HTML, CSS, and JavaScript.
+JavaScript will handle making API calls to the backend (Flask).
+Use fetch() or axios() to interact with the backend and display data dynamically on the page.
+Backend (Server-Side): The Flask app hosted on Heroku.
+
+It will expose APIs (e.g., /api/cve) for interacting with CVE data.
+Flask will handle logic, database interactions (if required), and data processing.
+Step 3: Develop the Backend (Flask App)
+Create the Flask Application:
+Set up routes to serve data (e.g., CVE information) and handle requests from the frontend.
+Implement API endpoints for returning data in JSON format.
+Database/External API (Optional):
+If your backend is supposed to fetch real-time data (e.g., from a CVE database), set up integration with that data source.
+CORS Handling:
+Since the frontend and backend will be hosted on different domains, configure Cross-Origin Resource Sharing (CORS) in Flask to allow requests from GitHub Pages.
+Step 4: Develop the Frontend (Static Website)
+Design the User Interface:
+The UI will be simple, with an input field for entering search criteria or parameters (like CVE IDs).
+Display results dynamically by consuming the backend API.
+Interaction with Backend:
+Use JavaScript's fetch() or axios() to call the backend API hosted on Heroku.
+Handle responses from the API and update the page dynamically.
