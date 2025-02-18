@@ -1,18 +1,71 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CVE Details</title>
-</head>
-<body>
-    <h2>CVE Details</h2>
-    <p><strong>ID:</strong> {{ cve.cve_id }}</p>
+
+
+ <!--   <p><strong>ID:</strong> {{ cve.cve_id }}</p>
     <p><strong>Identifier:</strong> {{ cve.identifier }}</p>
     <p><strong>CVSS Score:</strong> {{ cve.cvss_score }}</p>
     <p><strong>Published Date:</strong> {{ cve.published_date }}</p>
     <p><strong>Last Modified Date:</strong> {{ cve.last_modified_date }}</p>
     <p><strong>Status:</strong> {{ cve.status}}</p>
     <a href="/cves/list">Back to CVE List</a>
+</body>
+</html>-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CVE Details</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f4f4f4; }
+    </style>
+</head>
+<body>
+    <h1>{{cve.cve_id}}</h1><br>
+    <h2>Description:</h2>
+    <p>{{ cve.discription }}</p><br>
+    
+    <h2>CVSS V2 Metrics:</h2>
+    <p><strong>Severity:</strong> {{cve.severity}} &nbsp; <strong>Score:</strong> <span style="color:red;">{{cve.score}}</span></p>
+    <p><strong>Vector String:</strong> {{cve.vector_string}}</p>
+    
+    <table>
+        <tr>
+            <th>Access Vector</th>
+            <th>Access Complexity</th>
+            <th>Authentication</th>
+            <th>Confidentiality Impact</th>
+            <th>Integrity Impact</th>
+            <th>Availability Impact</th>
+        </tr>
+        <tr>
+            <td>{{cve.access_vector}}</td>
+            <td>{{cve.access_complexity}}</td>
+            <td>{{cve.authentication}}</td>
+            <td>{{cve.confidentiality_impact}}</td>
+            <td>{{cve.integrity_impact}}</td>
+            <td>{{cve.availability_impact}}</td>
+        </tr>
+    </table>
+    
+    <h2>Scores:</h2>
+    <p><strong>Exploitability Score:</strong> {{cve.exploitability_Score}}</p>
+    <p><strong>Impact Score:</strong> {{cve.impact_score}}</p>
+    
+    <h2>CPE:</h2>
+    <table>
+        <tr>
+            <th>Criteria</th>
+            <th>Match Criteria ID</th>
+            <th>Vulnerable</th>
+        </tr>
+        <tr>
+            <td>{{cve.criteria}}</td>
+            <td>{{cve.match_criteria_id}}</td>
+            <td>{{cve.vulnerable}}</td>
+        </tr>
+    </table>
 </body>
 </html>
