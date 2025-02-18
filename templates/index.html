@@ -5,34 +5,141 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CVE List</title>
     <style>
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
-        th { background-color: #f4f4f4; }
-        .pagination { margin-top: 20px; text-align: center; }
-        .pagination a { padding: 8px 12px; margin: 0 5px; text-decoration: none; border: 1px solid #ccc; }
-        .active { background-color: #007bff; color: white; }
-        .sort-button { margin-bottom: 10px; padding: 8px; border: none; background-color: #28a745; color: white; cursor: pointer; }
-        .per-page-container { margin-top: 20px; text-align: center; }
-        .per-page-select { padding: 8px; }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f8f9fa;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .pagination {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .pagination a {
+            padding: 10px 15px;
+            margin: 0 5px;
+            text-decoration: none;
+            border: 1px solid #007bff;
+            color: #007bff;
+            border-radius: 5px;
+        }
+        .pagination a:hover, .pagination .active {
+            background-color: #007bff;
+            color: white;
+        }
+        .sort-button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            border: none;
+            background-color: #28a745;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px; /* Adjust spacing below header */
+    padding: 10px 20px;  /* Adds internal spacing */
+}
+
+.sort-button {
+    margin-left: 1500px; /* Ensures the button stays on the right */
+    padding: 10px 15px;
+    font-size: 16px;
+}
+.pagination {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.pagination a {
+    padding: 10px 15px;
+    margin: 0 5px;
+    text-decoration: none;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f8f9fa;
+    color: #007bff;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+.pagination a:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+.current-page {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    padding: 10px 15px;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    margin: 0 5px;
+}
+
+
+        .sort-button:hover {
+            background-color: #218838;
+        }
+        .per-page-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .per-page-select {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
     </style>
 </head>
 <body>
-
-    <h2>Total CVEs: {{ total_records }}</h2>
-
-    <!-- Sort Button -->
+<!-- Container for Flexbox Alignment -->
+<div class="header-container">
+    <h2>Total Records: {{ total_records }}</h2>
     <button class="sort-button" onclick="sortByDate()">
         Sort by Date ({{ 'Newest' if sort_order == 'asc' else 'Oldest' }})
     </button>
+</div>
 
     <table>
         <thead>
             <tr>
                 <th>CVE ID</th>
-                <th>Description</th>
+                <th>Identifier</th>
                 <th>CVSS Score</th>
                 <th>Published Date</th>
                 <th>Last Modified Date</th>
+                <th>Status</th>
             </tr>
         </thead>
         <tbody>
@@ -43,6 +150,7 @@
                     <td>{{ cve[2] if cve[2] else "N/A" }}</td>
                     <td>{{ cve[3] }}</td>
                     <td>{{ cve[4] }}</td>
+                    <td>{{ cve[5] }}</td>
                 </tr>
             {% endfor %}
         </tbody>
@@ -53,22 +161,21 @@
             <a href="/cves/list?page=1&per_page={{ per_page }}&sort={{ sort_order }}">First</a>
             <a href="/cves/list?page={{ page-1 }}&per_page={{ per_page }}&sort={{ sort_order }}">Previous</a>
         {% endif %}
-
-        <span class="active">{{ page }}</span>
-
+    
+        <span class="current-page">{{ page }}</span>
+    
         {% if page < total_pages %}
             <a href="/cves/list?page={{ page+1 }}&per_page={{ per_page }}&sort={{ sort_order }}">Next</a>
             <a href="/cves/list?page={{ total_pages }}&per_page={{ per_page }}&sort={{ sort_order }}">Last</a>
         {% endif %}
     </div>
-
-    <!-- Results per Page Selection -->
+    
     <div class="per-page-container">
         <label for="perPage">Results per page:</label>
         <select id="perPage" class="per-page-select" onchange="changePerPage()">
             <option value="10" {% if per_page == 10 %}selected{% endif %}>10</option>
-            <option value="20" {% if per_page == 20 %}selected{% endif %}>20</option>
-            <option value="30" {% if per_page == 30 %}selected{% endif %}>30</option>
+            <option value="50" {% if per_page == 50 %}selected{% endif %}>50</option>
+            <option value="100" {% if per_page == 100 %}selected{% endif %}>100</option>
         </select>
     </div>
 
